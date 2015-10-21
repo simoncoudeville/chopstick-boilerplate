@@ -39,29 +39,46 @@ var chopstick =
     }
 };
 
-var hideSettings
-chopstick.hide =
-{
-    settings:
-    {
-        hide: $('.js-hide')
-    },
+var chopstickJS = (function() {
+    "use strict";
 
-    init: function()
-    {
-        hideSettings = chopstick.hide.settings;
-        chopstick.hide.hideContent();
-    },
+    var module = {};
 
-    hideContent: function ()
-    {
-        hideSettings.hide.on('click', function(e)
-        {
-            e.preventDefault();
-            $(this).closest(hideSettings.hide).parent().addClass('is-hidden');
-        });
+    module.hide = function(object, evt) {
+        if(checkArguments(arguments, 2)) {
+
+            var $target = $(object);
+
+            $target.on(evt, function(e){
+                e.preventDefault();
+                $(this).closest(object).addClass('is-hidden');
+            });
+
+        }
+    };
+
+    var checkArguments = function(args, amountNeeded) {
+        if (args.length == amountNeeded) {
+            return true;
+        }
+
+        console.error("Specify the correct amount of arguments");
+        return false;
     }
-};
+
+    return module;
+})();
+
+// hide expects 2 params:
+// chopstickJS.hide('class', 'event');
+
+// change components to a js-hook
+// This is just for demonstration purposes
+chopstickJS.hide('.c-button', 'click'); //hide a button onclick
+chopstickJS.hide('.c-swatch', 'mouseover'); // h
+chopstickJS.hide('.c-scss');
+
+// chopstickJS.toggle('.is-hidden');
 
 var mobileNavSettings
 chopstick.mobileNav =
